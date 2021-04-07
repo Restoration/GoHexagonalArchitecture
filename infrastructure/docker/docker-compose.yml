@@ -1,0 +1,27 @@
+version: '3'
+services:
+  # Go API App
+  app:
+    build: ./go
+    container_name: hex_api
+    tty: true
+    volumes:
+      - ../../:/api
+    working_dir: /api
+    ports:
+      - "8080:8080"
+    depends_on: # dbコンテナに接続する ビルドするのもdbコンテナが立ち上がってからになる
+      - db
+  db:
+    image: mysql:5.7
+    container_name: hex_db
+    volumes:
+        - ../mysql/volumes:/var/lib/mysql # 永続化するときにマウントするdir
+        - ../mysql/initdb.d:/docker-entrypoint-initdb.d # 初回実行
+    ports:
+      - 3306:3306
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_USER: user
+      MYSQL_PASSWORD: password
+    command: --character-set-server=utf8mb4 --collation-server=utf8mb4_unicode_ci

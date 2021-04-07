@@ -1,0 +1,5 @@
+development:
+  dialect: mysql
+  datasource: root:root@tcp(hex_db:3306)/api_db?charset=utf8mb4&collation=utf8mb4_general_ci&parseTime=true
+  dir: infrastructure/mysql/migrations
+  table: migrations
